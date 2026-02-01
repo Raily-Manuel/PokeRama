@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+
 
 namespace Datos_Empleado
 {
@@ -15,60 +17,72 @@ namespace Datos_Empleado
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void textBox10_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
+            this.FormClosing += Form1_FormClosing; // CONFIRMACION-SALIR-DEL-PAPUS-PROYECTO
         }
 
         private void btnguardar_Click(object sender, EventArgs e)
         {
-            int id_empleado = txtid.TabIndex;
-            string nombre = txtnombre.Text;
-            string apellidos = txtapellidos.Text;
-            string telefono = masktelefono.Text;
-            string genero = txtgenero.Text;
-            string direccion = txtdireccion.Text;
-            string email = txtemail.Text;
-            string cargo = txtcargo.Text;
-            string salario = txtsalario.Text;
-            string fecha_ingreso = maskfecha.Text;
-
-            if (string.IsNullOrEmpty(txtid.Text) || string.IsNullOrEmpty(txtnombre.Text) || string.IsNullOrEmpty(txtapellidos.Text) || string.IsNullOrEmpty(txtgenero.Text) || string.IsNullOrEmpty(txtdireccion.Text) || string.IsNullOrEmpty(txtemail.Text) || string.IsNullOrEmpty(txtcargo.Text) || string.IsNullOrEmpty(txtsalario.Text))
+            if (string.IsNullOrEmpty(txtid.Text) || string.IsNullOrEmpty(txtnombre.Text))
             {
-                MessageBox.Show("Complete el campo con los datos correspondientes");
-            }
-            if (masktelefono.MaskCompleted || maskfecha.MaskCompleted)
-            {
-                MessageBox.Show("Complete el campo correctamente");
+                MessageBox.Show("Complete todos los campos antes de guardar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            if (!masktelefono.MaskCompleted || !maskfecha.MaskCompleted)
+            {
+                MessageBox.Show("Complete correctamente el teléfono y la fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // CREAR LA PAPU TABLA
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("-------------------------------------------------------------");
+            sb.AppendLine("ID\tNombre\tApellidos\tTeléfono\tGénero\tDirección\tEmail\tCargo\tSalario\tFecha Ingreso");
+            sb.AppendLine("-------------------------------------------------------------");
+            sb.AppendLine($"{txtid.Text}\t{txtnombre.Text}\t{txtapellidos.Text}\t{masktelefono.Text}\t{txtgenero.Text}\t{txtdireccion.Text}\t{txtemail.Text}\t{txtcargo.Text}\t{txtsalario.Text}\t{maskfecha.Text}");
+
+            // GGUARDAR EL PPAPUS EMPLEADO
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Archivo de texto|*.txt";
+            saveFileDialog.Title = "Guardar datos de empleado";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                File.WriteAllText(saveFileDialog.FileName, sb.ToString());
+                MessageBox.Show("Archivo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // ABRIR LA CAPETA AMARILLA DE ARCHIVOS 
+                System.Diagnostics.Process.Start(saveFileDialog.FileName);
+            }
         }
 
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("¿Desea salir de la aplicación?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void btnsalir_Click(object sender, EventArgs e)
         {
-
+            Application.Exit();
         }
 
-        private void lblgenero_Click(object sender, EventArgs e)
+        private void btnlimpiar_Click(object sender, EventArgs e)
         {
-
+            txtid.Clear();
+            txtnombre.Clear();
+            txtapellidos.Clear();
+            txtgenero.Clear();
+            txtdireccion.Clear();
+            txtemail.Clear();
+            txtcargo.Clear();
+            txtsalario.Clear();
+            masktelefono.Clear();
+            maskfecha.Clear();
         }
     }
 }

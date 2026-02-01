@@ -71,7 +71,6 @@
             this.lblid.Size = new System.Drawing.Size(177, 25);
             this.lblid.TabIndex = 10;
             this.lblid.Text = "ID del Empleado:";
-            this.lblid.Click += new System.EventHandler(this.label1_Click);
             // 
             // lblnombre
             // 
@@ -160,7 +159,6 @@
             this.lblfecha.Size = new System.Drawing.Size(186, 25);
             this.lblfecha.TabIndex = 18;
             this.lblfecha.Text = "Fecha de ingreso:";
-            this.lblfecha.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // lblgenero
             // 
@@ -172,7 +170,6 @@
             this.lblgenero.Size = new System.Drawing.Size(90, 25);
             this.lblgenero.TabIndex = 19;
             this.lblgenero.Text = "Genero:";
-            this.lblgenero.Click += new System.EventHandler(this.lblgenero_Click);
             // 
             // btnguardar
             // 
@@ -198,6 +195,7 @@
             this.btnlimpiar.TabIndex = 29;
             this.btnlimpiar.Text = "Limpiar";
             this.btnlimpiar.UseVisualStyleBackColor = false;
+            this.btnlimpiar.Click += new System.EventHandler(this.btnlimpiar_Click);
             // 
             // btnsalir
             // 
@@ -210,6 +208,7 @@
             this.btnsalir.TabIndex = 30;
             this.btnsalir.Text = "Salir";
             this.btnsalir.UseVisualStyleBackColor = false;
+            this.btnsalir.Click += new System.EventHandler(this.btnsalir_Click);
             // 
             // label1
             // 
@@ -239,7 +238,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(1134, 228);
             this.pictureBox1.TabIndex = 33;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // pictureBox2
             // 
